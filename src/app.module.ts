@@ -8,7 +8,6 @@ import { OrdersModule } from "./orders/orders.module";
 import { WhatsappModule } from "./whatsapp/whatsapp.module";
 import { databaseConfig, whatsappConfig, appConfig } from "./config/env.config";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 @Module({
   imports: [
