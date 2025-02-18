@@ -1,16 +1,21 @@
-import {Entity,PrimaryGeneratedColumn,Column,OneToMany,JoinColumn} from "typeorm";
-import {Product} from "./product.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinColumn,
+} from "typeorm";
+import { Product } from "./product.entity";
+import { UUID } from "typeorm/driver/mongodb/bson.typings";
 
-@Entity()
+@Entity("categories")
 export class Category {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  name: string;
 
-    @Column()
-    name: string;
-
-    @OneToMany(type => Product, product => product.category)
-    products: Product[];
-
+  @OneToMany((type) => Product, (product) => product.category)
+  products: Product[];
 }

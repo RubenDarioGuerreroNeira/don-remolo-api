@@ -17,19 +17,37 @@ export class CategoriesService {
     private categoriesRepository: Repository<Category>
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto): Promise<resp> {
-    return {
-      data: this.categoriesRepository.save(createCategoryDto),
-      message: "Category created successfully",
-      status: 200,
-    };
+  async validate(category: CreateCategoryDto): Promise<any> {
+    if (!category.name) {
+      throw new Error("Category name is required");
+    }
+
+    return this.categoriesRepository.findOne({
+      where: { name: category.name },
+    });
   }
 
+  async create(createCategoryDto: CreateCategoryDto): Promise<resp> {
+    try {
+      await this.validate(createCategoryDto);
+      return {
+        data: this.categoriesRepository.save(createCategoryDto),
+        message: "Category created successfully",
+        status: 200,
+      };
+    } catch (err) {
+      return {
+        data: null,
+        message: err.message,
+        status: 400,
+      };
+    }
+  }
   async findAll(): Promise<Category[]> {
     return this.categoriesRepository.find();
   }
 
-  async findByProduct(productId: number): Promise<Category[]> {
+  async findByProduct(productId: string): Promise<Category[]> {
     return this.categoriesRepository.find({
       relations: ["products"],
       where: { products: { id: productId } },

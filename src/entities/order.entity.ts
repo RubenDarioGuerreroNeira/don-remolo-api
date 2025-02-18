@@ -9,10 +9,10 @@ import {
 import { Product } from "./product.entity";
 import { OrderItem } from "../interfaces/order-item.interfaces";
 
-@Entity()
+@Entity("orders")
 export class Order {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column("jsonb")
   items: OrderItem[];

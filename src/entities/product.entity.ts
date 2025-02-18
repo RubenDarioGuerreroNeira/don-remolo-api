@@ -8,10 +8,10 @@ import {
 } from "typeorm";
 import { Category } from "./category.entity";
 
-@Entity()
+@Entity("products")
 export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   name: string;
