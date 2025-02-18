@@ -4,6 +4,7 @@ import { ConfigService } from "@nestjs/config";
 import { config } from "dotenv";
 import { Category } from "../entities/category.entity";
 import { Product } from "../entities/product.entity";
+import { Order } from "../entities/order.entity";
 
 // Carga las variables de entorno
 config();
@@ -16,7 +17,7 @@ export const dataSourceOptions: DataSourceOptions = {
   username: configService.get("DATABASE_USERNAME", "postgres"),
   password: configService.get("DATABASE_PASSWORD", "2980"),
   database: configService.get("DATABASE_NAME", "pizza"),
-  entities: [Category, Product],
+  entities: [Category, Order, Product],
   migrations: ["src/migrations/*.ts"],
   synchronize: false,
   logging: true,
@@ -24,25 +25,3 @@ export const dataSourceOptions: DataSourceOptions = {
 
 const AppDataSource = new DataSource(dataSourceOptions);
 export default AppDataSource;
-
-// // src/config/data-source.ts
-// import { DataSource } from "typeorm";
-// import { Category } from "../entities/category.entity";
-// import { Product } from "../entities/product.entity";
-// import { Order } from "../entities/order.entity";
-
-// export const AppDataSource = new DataSource({
-//   type: "postgres",
-//   host: "localhost",
-//   port: 5432,
-//   username: "postgres", // tu usuario
-//   password: "2980", // tu contraseña
-//   database: "pizza", // tu base de datos
-//   entities: [Category, Order, Product],
-//   migrations: ["src/migrations/*.ts"],
-//   synchronize: false,
-//   logging: true,
-// });
-
-// // Exportamos la instancia de DataSource
-// export default AppDataSource;
