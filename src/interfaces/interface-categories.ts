@@ -10,6 +10,12 @@ export interface IProduct {
   categoryId: string;
 }
 
+export interface RespCategory {
+  status: number;
+  data: any;
+  message: string;
+}
+
 export interface ICategoryProduct extends ICategory {
   products: IProduct[];
 }

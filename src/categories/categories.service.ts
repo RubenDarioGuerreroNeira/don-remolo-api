@@ -17,19 +17,22 @@ export class CategoriesService {
     private categoriesRepository: Repository<Category>
   ) {}
 
-  async validate(category: CreateCategoryDto): Promise<any> {
+  async validateCategories(category: CreateCategoryDto): Promise<any> {
     if (!category.name) {
       throw new Error("Category name is required");
     }
 
-    return this.categoriesRepository.findOne({
+    const categories = await this.categoriesRepository.findOne({
       where: { name: category.name },
     });
+    if (categories) {
+      throw new Error("Category already exists");
+    }
   }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<resp> {
     try {
-      await this.validate(createCategoryDto);
+      await this.validateCategories(createCategoryDto);
       return {
         data: this.categoriesRepository.save(createCategoryDto),
         message: "Category created successfully",

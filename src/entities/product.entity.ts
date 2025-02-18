@@ -22,6 +22,12 @@ export class Product {
   @Column()
   description: string;
 
+  @Column()
+  stockIn: number;
+
+  @Column()
+  stockOut: number;
+
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
 }

@@ -3,6 +3,4 @@ import { OrderItem } from "../interfaces/order-item.interfaces";
 
 export class CreateCategoryDto {
   name: string;
-
-  description: string;
 }

@@ -11,7 +11,7 @@ import {
 import { CategoriesService } from "./categories.service";
 import { CreateCategoryDto } from "../dto/create-category.dto";
 import { HttpStatus, HttpException } from "@nestjs/common";
-import { ICategory } from "../interfaces/interface-categories";
+import { ICategory, RespCategory } from "../interfaces/interface-categories";
 
 @Controller("categories")
 export class CategoriesController {
@@ -28,4 +28,14 @@ export class CategoriesController {
       throw new HttpException(message, status);
     }
   }
-}
+
+  @Get()
+  async findAll() {
+    try {
+      const data = await this.categoriesService.findAll();
+      return { message: "Categories found", data, status: 200 };
+    } catch (err) {
+      return { data: null, message: err.message, status: 400 };
+    }
+  }
+} // fin
