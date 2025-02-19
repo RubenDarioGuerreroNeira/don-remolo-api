@@ -17,7 +17,7 @@ export class CategoriesService {
     private categoriesRepository: Repository<Category>
   ) {}
 
-  async validateCategories(category: CreateCategoryDto): Promise<any> {
+  public async validateCategories(category: CreateCategoryDto): Promise<any> {
     if (!category.name) {
       throw new Error("Category name is required");
     }

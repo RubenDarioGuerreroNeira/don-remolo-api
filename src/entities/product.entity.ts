@@ -25,7 +25,7 @@ export class Product {
   @Column()
   stockIn: number;
 
-  @Column()
+  @Column({ nullable: true })
   stockOut: number;
 
   @ManyToOne(() => Category, (category) => category.products)
