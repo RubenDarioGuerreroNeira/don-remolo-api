@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "types": [
+      "node",
+      "serve-static",
+      "yargs"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
   }
 }
