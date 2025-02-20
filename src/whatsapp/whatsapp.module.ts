@@ -8,5 +8,6 @@ import { Order } from "../entities/order.entity";
   imports: [TypeOrmModule.forFeature([Order])],
   controllers: [WhatsappController],
   providers: [WhatsappService],
+  exports: [WhatsappService],
 })
 export class WhatsappModule {}
