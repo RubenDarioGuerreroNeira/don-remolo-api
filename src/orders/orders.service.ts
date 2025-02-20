@@ -35,6 +35,8 @@ export class OrdersService {
         throw new BadRequestException("Product is out of stock");
       }
       total += product.price * item.quantity;
+      product.stockIn -= item.quantity;
+      await this.productRepository.save(product);
     }
     return total;
   }

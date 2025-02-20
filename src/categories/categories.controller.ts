@@ -12,11 +12,20 @@ import { CategoriesService } from "./categories.service";
 import { CreateCategoryDto } from "../dto/create-category.dto";
 import { HttpStatus, HttpException } from "@nestjs/common";
 import { ICategory, RespCategory } from "../interfaces/interface-categories";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
 
+@ApiTags("categories")
 @Controller("categories")
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
-
+  @ApiOperation({ summary: "Get all categories" })
+  @ApiResponse({ status: 201, description: "Product Created" })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     const { data, message, status } = await this.categoriesService.create(
@@ -29,6 +38,9 @@ export class CategoriesController {
     }
   }
 
+  @ApiOperation({ summary: "Get a categoies" })
+  @ApiResponse({ status: 200, description: "Categories Found" })
+  @ApiResponse({ status: 400, description: "Bad Request" })
   @Get()
   async findAll() {
     try {
