@@ -33,8 +33,13 @@ export class CategoriesService {
   async create(createCategoryDto: CreateCategoryDto): Promise<resp> {
     try {
       await this.validateCategories(createCategoryDto);
+      // espero y guardo la respuesta
+      const savedCategory = await this.categoriesRepository.save(
+        createCategoryDto
+      );
+
       return {
-        data: this.categoriesRepository.save(createCategoryDto),
+        data: savedCategory,
         message: "Category created successfully",
         status: 200,
       };
