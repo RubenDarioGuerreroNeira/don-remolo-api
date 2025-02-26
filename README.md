@@ -1,7 +1,7 @@
 # Don Remolo API
 
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="/src/images/Logo.png" width="200" alt="Don Remolo Logo" /></a>
 </p>
 
 ## 📋 Descripción
