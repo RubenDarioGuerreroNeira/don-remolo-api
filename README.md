@@ -4,68 +4,181 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-## Descripción
+## 📋 Descripción
 
-Este proyecto es una API desarrollada con el framework [NestJS](https://nestjs.com/) para gestionar pedidos de un restaurante. Permite a los usuarios visualizar el listado de comidas, armar su pedido, conocer el total y recibir confirmación del local a través de WhatsApp.
+Este proyecto es una API desarrollada con [NestJS](https://nestjs.com/) para gestionar pedidos del restaurante Don Remolo. La API trabaja en conjunto con el frontend para proporcionar una experiencia completa de pedidos en línea.
+
+## 🏗️ Arquitectura del Proyecto
+
+### Backend (NestJS)
+
+- **Framework**: NestJS v9.x
+- **Base de Datos**: PostgreSQL
+- **ORM**: TypeORM
+- **Documentación API**: Swagger/OpenAPI
+- **Autenticación**: JWT
 
 ### Módulos Principales
 
-- **Categories**: Gestión de categorías de productos.
-- **Products**: Gestión de productos.
-- **Orders**: Gestión de pedidos.
-- **Whatsapp**: Envío de notificaciones de pedidos a través de WhatsApp.
+#### 🔹 Categories
 
-## Instalación
+- Gestión CRUD de categorías de productos
+- Endpoints:
+  - `GET /categories` - Listar categorías
+  - `POST /categories` - Crear categoría
+  - `PUT /categories/:id` - Actualizar categoría
+  - `DELETE /categories/:id` - Eliminar categoría
 
-Para instalar las dependencias del proyecto, ejecuta:
+#### 🔹 Products
 
-```bash
+- Gestión completa de productos
+- Soporte para imágenes
+- Filtrado por categorías
+- Endpoints principales en `/products`
+
+#### 🔹 Orders
+
+- Sistema de gestión de pedidos
+- Estados: Pendiente, Confirmado, En Preparación, Enviado, Entregado
+- Integración con sistema de notificaciones
+
+#### 🔹 WhatsApp
+
+- Servicio de notificaciones vía WhatsApp
+- Confirmaciones automáticas
+- Actualizaciones de estado
+
+## 🚀 Configuración del Entorno
+
+### Prerrequisitos
+
+- Node.js (v16 o superior)
+- npm v8+
+- PostgreSQL
+- Redis (para caché)
+
+### Variables de Entorno
+
+Crea un archivo `.env` en la raíz del proyecto:
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/donremolo
+JWT_SECRET=your-secret-key
+WHATSAPP_API_KEY=your-whatsapp-key
+REDIS_URL=redis://localhost:6379
+
+# Instalar dependencias
 npm install
-```
 
-## Ejecución
+# Configurar base de datos
+npm run typeorm:migration:run
 
-Para ejecutar el proyecto, ejecuta:
+# Generar datos de prueba (opcional)
+npm run seed
 
-```bash
+# Desarrollo
 npm run start:dev
-```
 
-## Pruebas
+# Producción
+npm run build
+npm run start:prod
 
-Para ejecutar las pruebas unitarias, ejecuta:
+📚 Documentación API
+La documentación Swagger está disponible en http://localhost:3000/api-docs
 
-```bash
-npm run test
-```
+Para generar la documentación técnica:
 
-Para ejecutar las pruebas de integración, ejecuta:
-
-```bash
-npm run test:e2e
-```
-
-## Documentación
-
-Para ver la documentación del proyecto, ejecuta:
-
-```bash
 npm run docs
+
+# Pruebas unitarias
+npm run test
+
+# Pruebas e2e
+npm run test:e2e
+
+# Cobertura
+npm run test:cov
 ```
 
-## Contribuciones
+👥 Integración Frontend
+Endpoints Principales para Frontend
+Autenticación: /auth/login
+Productos: /products
+Categorías: /categories
+Pedidos: /orders
 
-Si desea contribuir al proyecto, siga los siguientes pasos:
+## Ejemplos de Integración
 
-1. Forkea el repositorio.
-2. Crea una nueva rama con un nombre descriptivo de tu cambio, por ejemplo, `feature/my-feature` o `fix/my-fix`.
-3. Realiza los cambios necesarios en la rama.
-4. Envía un pull request a este repositorio.
+// Ejemplo de llamada a la API
+const response = await fetch('http://localhost:3000/products', {
+headers: {
+'Authorization': `Bearer ${token}`,
+'Content-Type': 'application/json'
+}
+});
 
-## Autor
+Manejo de Errores
+La API utiliza códigos de estado HTTP estándar:
 
-[Don Remolo](https://github.com/donremolo)
+200: Éxito
+400: Error de cliente
+401: No autorizado
+403: Prohibido
+404: No encontrado
+500: Error del servidor
+🤝 Contribuciones
+Fork el repositorio
+Crea una rama: git checkout -b feature/nueva-funcionalidad
+Commit tus cambios: git commit -am 'feat: añadir nueva funcionalidad'
+Push a la rama: git push origin feature/nueva-funcionalidad
+Crea un Pull Request
+Convenciones de Código
+Usar TypeScript strict mode
+Seguir guía de estilo de NestJS
+Documentar nuevos endpoints en Swagger
+Incluir pruebas unitarias
+📝 Licencia
+Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
-## Licencia
+👤 Autor
+Don Remolo
 
-Este proyecto está licenciado bajo licencia MIT. Consulta el archivo [LICENSE](LICENSE) para obtener más información.
+🆘 Soporte
+Para reportar problemas o solicitar ayuda:
+
+Crear un issue en GitHub
+Contactar al equipo de desarrollo: rudargeneira@gmail.com
+
+## Manejo de Errores
+
+La API utiliza códigos de estado HTTP estándar:
+
+200: Éxito
+400: Error de cliente
+401: No autorizado
+403: Prohibido
+404: No encontrado
+500: Error del servidor
+
+🤝 Contribuciones
+Fork el repositorio
+Crea una rama: git checkout -b feature/nueva-funcionalidad
+Commit tus cambios: git commit -am 'feat: añadir nueva funcionalidad'
+Push a la rama: git push origin feature/nueva-funcionalidad
+Crea un Pull Request
+Convenciones de Código
+Usar TypeScript strict mode
+Seguir guía de estilo de NestJS
+Documentar nuevos endpoints en Swagger
+Incluir pruebas unitarias
+📝 Licencia
+Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
+
+👤 Autor
+Don Remolo
+
+🆘 Soporte
+Para reportar problemas o solicitar ayuda:
+
+Crear un issue en GitHub
+Contactar al equipo de desarrollo: rudargeneira@gmail.com
