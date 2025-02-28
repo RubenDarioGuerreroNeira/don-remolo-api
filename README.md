@@ -155,11 +155,13 @@ Incluir pruebas unitarias
 Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
 👤 Frontend:
+
 Agustina Marini F.
 
 Diego G.Medina.
 
 👤 Backend:
+
 Rubén D. Guerrero N..
 
 ## Manejo de Errores
