@@ -156,6 +156,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más deta
 
 👤 Frontend:
 Agustina Marini F.
+
 Diego G.Medina.
 
 👤 Backend:
