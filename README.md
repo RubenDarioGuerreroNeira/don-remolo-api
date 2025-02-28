@@ -154,16 +154,12 @@ Incluir pruebas unitarias
 📝 Licencia
 Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
-👤 Backend:
-Rubén G.
 👤 Frontend:
-Diego A.
+Agustina Marini F.
+Diego G.Medina.
 
-🆘 Soporte
-Para reportar problemas o solicitar ayuda:
-
-Crear un issue en GitHub
-Contactar al equipo de desarrollo: rudargeneira@gmail.com
+👤 Backend:
+Rubén D. Guerrero N..
 
 ## Manejo de Errores
 
@@ -194,4 +190,4 @@ Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más deta
 Para reportar problemas o solicitar ayuda:
 
 Crear un issue en GitHub
-Contactar al equipo de desarrollo: rudargeneira@gmail.com
+Contactar al equipo de desarrollo: agustina_1312@hotmail.com , diegoguamanmedina@gmail.com ó rudargeneira@gmail.com
