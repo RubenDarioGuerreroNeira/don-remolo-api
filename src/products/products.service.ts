@@ -86,27 +86,41 @@ export class ProductsService {
     try {
       const product = await this.productsRepository.findOne({
         where: { id },
+        relations: ["category"],
       });
+
       if (!product) {
         throw new Error("Product does not exist");
       }
+
+      // Check if category exists if categoryId is provided
       if (updateProductsDto.categoryId) {
         await this.validateCategory(updateProductsDto.categoryId);
       }
 
-      // creo el nuevo objeto con los datos del producto
+      // Create an object only with the fields that are provided
+      const productToUpdate = Object.entries(updateProductsDto)
+        .filter(([key, value]) => value !== undefined && key !== "categoryId")
+        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
 
-      const updatedProduct = {
-        name: updateProductsDto.name,
-        price: updateProductsDto.price,
-        description: updateProductsDto.description,
-        category: { id: updateProductsDto.categoryId },
-      };
-      // actualizo el producto en la base de datos
-      await this.productsRepository.update(id, updatedProduct);
+      // Only update if there are fields to update
+      if (Object.keys(productToUpdate).length > 0) {
+        await this.productsRepository.update(id, productToUpdate);
+      }
+
+      // If categoryId is provided, update the relation separately
+      if (updateProductsDto.categoryId) {
+        await this.productsRepository.save({
+          id,
+          category: { id: updateProductsDto.categoryId } as Category,
+        });
+      }
 
       return {
-        data: updatedProduct,
+        data: await this.productsRepository.findOne({
+          where: { id },
+          relations: ["category"],
+        }),
         message: "Product updated successfully",
         status: 200,
       };
