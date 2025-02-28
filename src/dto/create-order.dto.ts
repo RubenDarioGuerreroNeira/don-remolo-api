@@ -22,6 +22,7 @@ export class CreateOrderDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Type(() => Number)
   total: number;
 
   @ApiProperty({
@@ -31,6 +32,7 @@ export class CreateOrderDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Type(() => String)
   customerName: string;
 
   @ApiProperty({
@@ -40,6 +42,7 @@ export class CreateOrderDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Type(() => String)
   customerPhone: string;
   @ApiProperty({
     description: "Customer address",
@@ -48,5 +51,6 @@ export class CreateOrderDto {
   })
   @IsString()
   @IsNotEmpty()
+  @Type(() => String)
   customerAddress: string;
 }
