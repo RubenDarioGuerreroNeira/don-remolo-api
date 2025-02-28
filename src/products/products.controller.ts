@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import { Product } from "../entities/product.entity";
+import { UpdateProductsDto } from "../dto/update-products";
 import {
   ApiTags,
   ApiOperation,
@@ -34,4 +43,22 @@ export class ProductsController {
   findByCategory(@Param("id") categoryId: string): Promise<Product[]> {
     return this.productsService.findByCategory(categoryId);
   }
-}
+  @Patch(":id")
+  @ApiOperation({ summary: "Update a product" })
+  @ApiResponse({ status: 200, description: "Product Updated" })
+  @ApiResponse({ status: 400, description: "Bad Request" })
+  async update(
+    @Param("id") id: string,
+    @Body() updateProductsDto: UpdateProductsDto
+  ): Promise<any> {
+    return this.productsService.update(id, updateProductsDto);
+  }
+
+  @Delete(":id")
+  @ApiOperation({ summary: "Delete a product" })
+  @ApiResponse({ status: 200, description: "Product Deleted" })
+  @ApiResponse({ status: 400, description: "Bad Request" })
+  async delete(@Param("id") id: string): Promise<any> {
+    return this.productsService.delete(id);
+  }
+} // end class

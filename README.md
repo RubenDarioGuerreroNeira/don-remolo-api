@@ -1,7 +1,7 @@
 # Don Remolo API
 
 <p align="right">
-  <a href="http://nestjs.com/" target="blank"><img src="/src/images/project_don_remolo.jpg" width="200" alt="Don Remolo Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="/src/images/Piizeria01.jpg" width="200" alt="Don Remolo Logo" /></a>
 </p>
 
 ## 📋 Descripción
@@ -154,16 +154,6 @@ Incluir pruebas unitarias
 📝 Licencia
 Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
-👤 Frontend:
-
-Agustina Marini F.
-
-Diego G.Medina.
-
-👤 Backend:
-
-Rubén D. Guerrero N..
-
 ## Manejo de Errores
 
 La API utiliza códigos de estado HTTP estándar:
@@ -194,3 +184,13 @@ Para reportar problemas o solicitar ayuda:
 
 Crear un issue en GitHub
 Contactar al equipo de desarrollo: agustina_1312@hotmail.com , diegoguamanmedina@gmail.com ó rudargeneira@gmail.com
+
+👤 Frontend:
+
+Agustina Marini F.
+
+Diego G.Medina.
+
+👤 Backend:
+
+Rubén D. Guerrero N..
