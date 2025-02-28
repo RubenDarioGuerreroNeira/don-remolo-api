@@ -5,8 +5,24 @@ import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // habilito cors para permitir la comunicación entre la aplicación y el cliente
+  app.enableCors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 200,
+  });
+  // configuramos el validador de datos
+  app.useGlobalPipes(new ValidationPipe());
+
   // configuro Swagger
   setupSwagger(app);
-  await app.listen(3000);
+  // Escuchar de todas las interfaces y puertos
+  await app.listen(3000, "0.0.0.0");
+  console.log(`La aplicacion esta escuchando en ${await app.getUrl()}`);
+  console.log(`Swagger Disponible en ${await app.getUrl()}/api`);
+  console.log(
+    "Para Exponer ngrok ejecuta otra terminal y ejecuta ngrok http 3000"
+  );
 }
 bootstrap();

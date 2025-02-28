@@ -15,14 +15,14 @@ export class CreateOrderDto {
   @IsNotEmpty()
   items: OrderItem[];
 
-  @ApiProperty({
-    description: "Total of the order",
-    example: 10,
-    required: true,
-  })
-  @IsString()
-  @IsNotEmpty()
-  @Type(() => Number)
+  // @ApiProperty({
+  //   description: "Total of the order",
+  //   example: 10,
+  //   required: true,
+  // })
+  // @IsString()
+  // @IsNotEmpty()
+  // @Type(() => Number)
   total: number;
 
   @ApiProperty({
