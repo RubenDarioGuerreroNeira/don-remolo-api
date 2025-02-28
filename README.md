@@ -1,7 +1,7 @@
 # Don Remolo API
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="/src/images/Logo.png" width="200" alt="Don Remolo Logo" /></a>
+<p align="right">
+  <a href="http://nestjs.com/" target="blank"><img src="/src/images/project_don_remolo.jpg" width="200" alt="Don Remolo Logo" /></a>
 </p>
 
 ## 📋 Descripción
@@ -47,6 +47,20 @@ Este proyecto es una API desarrollada con [NestJS](https://nestjs.com/) para ges
 - Servicio de notificaciones vía WhatsApp
 - Confirmaciones automáticas
 - Actualizaciones de estado
+
+## 📚 Endpoints para Frontend
+
+🔹 Categorías
+GET/categoriesListar todas las categoríasNoGET/categories/:idObtener categoría por IDNo
+
+🔹 Productos
+GET/productsListar productos?category=id&sort=priceNoGET/products/:idDetalle de producto-NoGET/products/featuredProductos destacados-No
+
+🔹 Pedidos
+@Post()
+create(@Body() createOrderDto: CreateOrderDto): Promise<WhatsappResponse> {
+return this.ordersService.create(createOrderDto);
+}
 
 ## 🚀 Configuración del Entorno
 
@@ -140,8 +154,10 @@ Incluir pruebas unitarias
 📝 Licencia
 Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
-👤 Autor
-Don Remolo
+👤 Backend:
+Rubén G.
+👤 Frontend:
+Diego A.
 
 🆘 Soporte
 Para reportar problemas o solicitar ayuda:
@@ -173,9 +189,6 @@ Documentar nuevos endpoints en Swagger
 Incluir pruebas unitarias
 📝 Licencia
 Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
-
-👤 Autor
-Don Remolo
 
 🆘 Soporte
 Para reportar problemas o solicitar ayuda:
