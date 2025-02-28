@@ -51,11 +51,10 @@ export class CreateProductsDto {
     example: "sjjs8887djsahd73743278sdhsh",
     required: true,
   })
-  @IsNumber()
+  @IsString()
   @Type(() => String)
   categoryId: string;
   // idCategory: string;
 
   stockOut: number;
-  
 }

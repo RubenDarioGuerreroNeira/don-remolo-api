@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { CreateProductsDto } from "../dto/create-products.dto";
 import { Rproducts, Rproduct } from "../interfaces/interfaces-products";
 import { UpdateProductsDto } from "../dto/update-products";
+import { DeleteProductsDto } from "../dto/delete-products ";
 
 @Injectable()
 export class ProductsService {
@@ -135,14 +136,16 @@ export class ProductsService {
 
   async delete(id: string): Promise<Rproduct> {
     try {
-      const producto = await this.productsRepository.findOne({ where: { id } });
+      const producto = await this.productsRepository.findOne({
+        where: { id },
+      });
       if (!producto) {
         throw new Error("Product does not exist");
       }
       const deletedProduct = await this.productsRepository.delete(id);
       return {
         data: deletedProduct,
-        message: "Product deleted successfully",
+        message: `Product deleted successfully ${producto.name}`,
         status: 200,
       };
     } catch (err) {
