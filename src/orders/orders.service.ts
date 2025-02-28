@@ -8,6 +8,7 @@ import { OrderItem } from "../interfaces/order-item.interfaces";
 import { CreateOrderDto } from "../dto/create-order.dto";
 import { WhatsappService } from "../whatsapp/whatsapp.service";
 import { of } from "rxjs";
+import { WhatsappResponse } from "../interfaces/whatsappResponse";
 
 @Injectable()
 export class OrdersService {
@@ -41,7 +42,7 @@ export class OrdersService {
     return total;
   }
 
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
+  async create(createOrderDto: CreateOrderDto): Promise<WhatsappResponse> {
     const total = await this.validateProduct(createOrderDto.items);
 
     const order = this.ordersRepository.create({
@@ -50,8 +51,24 @@ export class OrdersService {
     });
 
     const savedOrder = await this.ordersRepository.save(order);
-    await this.whatsappService.sendOrderNotification(savedOrder);
+    // Generar el link de WhatsApp
+    const whatsappLink = this.whatsappService.generateWhatsappLink(savedOrder);
 
-    return savedOrder;
+    // Retornar la orden con el link
+    return {
+      order: savedOrder,
+      whatsappLink,
+    };
+  }
+
+  async findOne(orderId: string): Promise<Order | null> {
+    try {
+      const order = await this.ordersRepository.findOne({
+        where: { id: orderId },
+      });
+      return order || null; // Retorna la orden o null si no se encuentra
+    } catch (e) {
+      return null; // En caso de error, retorna null
+    }
   }
 }
