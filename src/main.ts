@@ -21,8 +21,6 @@ async function bootstrap() {
   await app.listen(3000, "0.0.0.0");
   console.log(`La aplicacion esta escuchando en ${await app.getUrl()}`);
   console.log(`Swagger Disponible en ${await app.getUrl()}/api`);
-  console.log(
-    "Para Exponer ngrok ejecuta otra terminal y ejecuta ngrok http 3000"
-  );
+  console.log("Para Exponer el tunel ejecute: lt --port 4000");
 }
 bootstrap();

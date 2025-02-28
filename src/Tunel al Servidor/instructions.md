@@ -1,4 +1,4 @@
 npm install -g localtunnel
 
-expongo la url 
-lt --port 3000
+expongo la url
+lt --port 4000
