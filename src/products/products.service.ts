@@ -1,12 +1,16 @@
-import { Injectable } from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Product } from "src/entities/product.entity";
-import { Category } from "src/entities/category.entity";
 import { Repository } from "typeorm";
+import { Product } from "../entities/product.entity";
+import { Category } from "../entities/category.entity";
 import { CreateProductsDto } from "../dto/create-products.dto";
-import { Rproducts, Rproduct } from "../interfaces/interfaces-products";
 import { UpdateProductsDto } from "../dto/update-products";
-import { DeleteProductsDto } from "../dto/delete-products ";
+import { PaginationDto } from "../dto/pagination.dto"; // Asumiendo que crearás este DTO
 
 @Injectable()
 export class ProductsService {
@@ -17,143 +21,172 @@ export class ProductsService {
     private categoriesRepository: Repository<Category>
   ) {}
 
-  async validateProducts(datos: CreateProductsDto): Promise<any> {
-    if (!datos.name) {
-      throw new Error("Product name is required");
-    }
-
-    if (!datos.price || !datos.description || !datos.stockIn) {
-      throw new Error("Product data is required");
-    }
-    if (datos.stockIn < 0) {
-      throw new Error("StockIn must be greater than 0");
-    }
-
-    const product = await this.productsRepository.findOne({
-      where: { name: datos.name },
+  async create(createProductsDto: CreateProductsDto): Promise<Product> {
+    // Verificar si el producto ya existe
+    const existingProduct = await this.productsRepository.findOne({
+      where: { name: createProductsDto.name },
     });
-    if (product) {
-      throw new Error("Product already exists");
+
+    if (existingProduct) {
+      throw new ConflictException("Product already exists");
     }
+
+    // Validar stock
+    if (createProductsDto.stockIn < 0) {
+      throw new BadRequestException("StockIn must be greater than 0");
+    }
+
+    // Verificar si la categoría existe
+    const category = await this.categoriesRepository.findOne({
+      where: { id: createProductsDto.categoryId },
+    });
+
+    if (!category) {
+      throw new NotFoundException(
+        `Category with ID ${createProductsDto.categoryId} not found`
+      );
+    }
+
+    // Crear y guardar el producto
+    const product = this.productsRepository.create({
+      ...createProductsDto,
+      category: { id: createProductsDto.categoryId },
+    });
+
+    return this.productsRepository.save(product);
   }
 
-  async validateCategory(categoryId: string): Promise<any> {
+  async findAll(paginationDto?: PaginationDto): Promise<{
+    items: Product[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    const { page = 1, limit = 10 } = paginationDto || {};
+
+    const [items, total] = await this.productsRepository.findAndCount({
+      relations: ["category"],
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return {
+      items,
+      total,
+      page,
+      limit,
+    };
+  }
+
+  async findOne(id: string): Promise<Product> {
+    const product = await this.productsRepository.findOne({
+      where: { id },
+      relations: ["category"],
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    return product;
+  }
+
+  async findByCategory(
+    categoryId: string,
+    paginationDto?: PaginationDto
+  ): Promise<{
+    items: Product[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    const { page = 1, limit = 10 } = paginationDto || {};
+
+    // Verificar si la categoría existe
     const category = await this.categoriesRepository.findOne({
       where: { id: categoryId },
     });
+
     if (!category) {
-      throw new Error("Category does not exist");
+      throw new NotFoundException(`Category with ID ${categoryId} not found`);
     }
-  }
 
-  async create(createProductsDto: CreateProductsDto): Promise<Rproduct> {
-    try {
-      await this.validateProducts(createProductsDto);
-      await this.validateCategory(createProductsDto.categoryId);
-
-      const savedProduct = await this.productsRepository.save({
-        ...createProductsDto,
-        category: { id: createProductsDto.categoryId },
-      });
-      return {
-        data: savedProduct,
-        message: "Product created successfully",
-        status: 200,
-      };
-    } catch (err) {
-      return {
-        data: null,
-        message: err.message,
-        status: 400,
-      };
-    }
-  }
-
-  async findAll(): Promise<Product[]> {
-    return this.productsRepository.find({ relations: ["category"] });
-  }
-
-  async findByCategory(categoryId: string): Promise<Product[]> {
-    return this.productsRepository.find({
+    const [items, total] = await this.productsRepository.findAndCount({
       where: { category: { id: categoryId } },
       relations: ["category"],
+      skip: (page - 1) * limit,
+      take: limit,
     });
+
+    return {
+      items,
+      total,
+      page,
+      limit,
+    };
   }
 
   async update(
     id: string,
     updateProductsDto: UpdateProductsDto
-  ): Promise<Rproduct> {
-    try {
-      const product = await this.productsRepository.findOne({
-        where: { id },
-        relations: ["category"],
+  ): Promise<Product> {
+    // Verificar si el producto existe
+    const product = await this.productsRepository.findOne({
+      where: { id },
+      relations: ["category"],
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    // Verificar si la categoría existe si se proporciona categoryId
+    if (updateProductsDto.categoryId) {
+      const category = await this.categoriesRepository.findOne({
+        where: { id: updateProductsDto.categoryId },
       });
 
-      if (!product) {
-        throw new Error("Product does not exist");
+      if (!category) {
+        throw new NotFoundException(
+          `Category with ID ${updateProductsDto.categoryId} not found`
+        );
       }
-
-      // Check if category exists if categoryId is provided
-      if (updateProductsDto.categoryId) {
-        await this.validateCategory(updateProductsDto.categoryId);
-      }
-
-      // Create an object only with the fields that are provided
-      const productToUpdate = Object.entries(updateProductsDto)
-        .filter(([key, value]) => value !== undefined && key !== "categoryId")
-        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
-
-      // Only update if there are fields to update
-      if (Object.keys(productToUpdate).length > 0) {
-        await this.productsRepository.update(id, productToUpdate);
-      }
-
-      // If categoryId is provided, update the relation separately
-      if (updateProductsDto.categoryId) {
-        await this.productsRepository.save({
-          id,
-          category: { id: updateProductsDto.categoryId } as Category,
-        });
-      }
-
-      return {
-        data: await this.productsRepository.findOne({
-          where: { id },
-          relations: ["category"],
-        }),
-        message: "Product updated successfully",
-        status: 200,
-      };
-    } catch (err) {
-      return {
-        data: null,
-        message: err.message,
-        status: 400,
-      };
     }
-  }
 
-  async delete(id: string): Promise<Rproduct> {
-    try {
-      const producto = await this.productsRepository.findOne({
-        where: { id },
+    // Crear un objeto solo con los campos que se proporcionan
+    const productToUpdate = Object.entries(updateProductsDto)
+      .filter(([key, value]) => value !== undefined && key !== "categoryId")
+      .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+
+    // Actualizar el producto
+    if (Object.keys(productToUpdate).length > 0) {
+      await this.productsRepository.update(id, productToUpdate);
+    }
+
+    // Si se proporciona categoryId, actualizar la relación por separado
+    if (updateProductsDto.categoryId) {
+      await this.productsRepository.save({
+        id,
+        category: { id: updateProductsDto.categoryId } as Category,
       });
-      if (!producto) {
-        throw new Error("Product does not exist");
-      }
-      const deletedProduct = await this.productsRepository.delete(id);
-      return {
-        data: deletedProduct,
-        message: `Product deleted successfully ${producto.name}`,
-        status: 200,
-      };
-    } catch (err) {
-      return {
-        data: null,
-        message: err.message,
-        status: 400,
-      };
     }
+
+    // Devolver el producto actualizado
+    return this.productsRepository.findOne({
+      where: { id },
+      relations: ["category"],
+    });
   }
-} // end class
+
+  async remove(id: string): Promise<void> {
+    const product = await this.productsRepository.findOne({
+      where: { id },
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    await this.productsRepository.delete(id);
+  }
+}
