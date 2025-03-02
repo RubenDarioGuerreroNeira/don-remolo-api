@@ -1,7 +1,7 @@
 {
   "name": "don-remolo-api",
   "version": "0.0.1",
-  "description": "",
+  "description": "Api de la pizzeria Don Remolo, Solicitud de Servicio",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
