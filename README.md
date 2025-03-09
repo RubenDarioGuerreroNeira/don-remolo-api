@@ -186,11 +186,8 @@ Crear un issue en GitHub
 Contactar al equipo de desarrollo: agustina_1312@hotmail.com , diegoguamanmedina@gmail.com ó rudargeneira@gmail.com
 
 👤 Frontend:
-
-Agustina Marini F.
-
-Diego G.Medina.
+Rubén D. Guerrero N.
 
 👤 Backend:
 
-Rubén D. Guerrero N..
+Rubén D. Guerrero N.
