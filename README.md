@@ -187,8 +187,10 @@ Contactar al equipo de desarrollo: agustina_1312@hotmail.com , diegoguamanmedina
 
 👤 Frontend:
 
-Rubén D. Guerrero N..
+Agustina Marini F.
+
+Diego G.Medina.
 
 👤 Backend:
 
-Rubén D. Guerrero N..
+Rubén D. Guerrero N.
