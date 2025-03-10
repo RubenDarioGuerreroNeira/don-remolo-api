@@ -7,7 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // habilito cors para permitir la comunicación entre la aplicación y el cliente
   app.enableCors({
-    origin: "*",
+    // origin: "*", // cualquier sitio puede acceder
+    origin: "http://localhost:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 200,
