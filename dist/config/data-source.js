@@ -11,11 +11,11 @@ const order_entity_1 = require("../entities/order.entity");
 const configService = new config_1.ConfigService();
 exports.dataSourceOptions = {
     type: "postgres",
-    host: configService.get("DATABASE_HOST", "localhost"),
-    port: configService.get("DATABASE_PORT", 5432),
+    host: configService.get("DATABASE_HOST", "shuttle.proxy.rlwy.net"),
+    port: configService.get("DATABASE_PORT", 14371),
     username: configService.get("DATABASE_USERNAME", "postgres"),
-    password: configService.get("DATABASE_PASSWORD", "2980"),
-    database: configService.get("DATABASE_NAME", "pizza"),
+    password: configService.get("DATABASE_PASSWORD", "cMpLQVsWwlwvvEEGoUsAxfLhHnFbzrbf"),
+    database: configService.get("DATABASE_NAME", "railway"),
     entities: [category_entity_1.Category, order_entity_1.Order, product_entity_1.Product],
     migrations: ["src/migrations/*.ts"],
     synchronize: false,
