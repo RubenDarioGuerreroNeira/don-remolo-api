@@ -8,7 +8,7 @@ async function bootstrap() {
   // habilito cors para permitir la comunicación entre la aplicación y el cliente
   app.enableCors({
     // origin: "*", // cualquier sitio puede acceder
-    origin: "http://localhost:3000",
+origin: ["http://localhost:3000", "http://localhost:5173"], // Añade aquí tu URL del frontend
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 200,
