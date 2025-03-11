@@ -25,9 +25,14 @@ export class Product {
   @Column()
   stockIn: number;
 
+  @Column({nullable:true})
+  image: string;
+
   @Column({ nullable: true })
   stockOut: number;
 
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
+
+
 }
