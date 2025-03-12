@@ -1,9 +1,11 @@
 # compiled output
-#/dist
+/dist
 /node_modules
 /build
 
+# Qodo files
 *.qodo
+
 # Logs
 logs
 *.log
@@ -55,4 +57,16 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-.qodo
+
+# SQLite database files
+*.sqlite
+
+# Ignore all .env files
+.env.*
+
+# Ignore all .vscode files except specific ones
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
